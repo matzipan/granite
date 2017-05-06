@@ -20,7 +20,7 @@
 
 namespace Granite.Widgets {
     private class IndicatorBar : Gtk.DrawingArea {
-        private uint MARGIN = 4;
+        private uint PADDING = 4;
         private int HEIGHT = 4;
 
         private double _fill = 0;
@@ -47,10 +47,10 @@ namespace Granite.Widgets {
         }
 
         public override bool draw (Cairo.Context context) {
-            var width = get_allocated_width () - 2*MARGIN;
+            var width = get_allocated_width () - 2 * PADDING;
             var fill_width = fill * width;
             var height = get_allocated_height ();
-            var x = MARGIN;
+            var x = PADDING;
             var y = 0;
 
             var style_context = get_style_context ();
