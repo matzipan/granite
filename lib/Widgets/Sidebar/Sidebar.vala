@@ -19,7 +19,9 @@
 */
 
 namespace Granite.Widgets {
-    public class Sidebar : Gtk.ListBox {
+    public class Sidebar : Gtk.ScrolledWindow {
+        
+        private Gtk.ListBox listbox; 
     
         public Sidebar () {
             Object ();
@@ -29,16 +31,18 @@ namespace Granite.Widgets {
             build_ui ();
         }
 
-        private void build_ui () {
-            get_style_context ().add_class (Gtk.STYLE_CLASS_SIDEBAR);
+        private void build_ui () {  
             width_request = 176;
-            vexpand = true;
+            get_style_context ().add_class (Gtk.STYLE_CLASS_SIDEBAR);
+
+            listbox = new Gtk.ListBox ();
+            add (listbox);
         }
 
         public void bind_model (ListModel? model) {
-            base.bind_model (model, walk_model_items);
+            listbox.bind_model (model, walk_model_items);
             
-            show_all ();
+            listbox.show_all ();
         }
         
         private Gtk.Widget walk_model_items (Object item) {
