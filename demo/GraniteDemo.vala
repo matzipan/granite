@@ -296,8 +296,8 @@ public class Granite.Demo : Granite.Application {
         test1.children.append (new Granite.Widgets.SidebarRowModel.with_icon_name ("Item 14", "folder-music"));
         test1.children.append (new Granite.Widgets.SidebarRowModel.with_icon_name ("Item 15", "user-trash"));
 
-        const int width = 32;
-        const int height = 32;
+        const int width = 16;
+        const int height = 16;
         var drawbuf = new uint8[width*height*3];
 
         for (int y = 0; y < width; y++) {
@@ -310,33 +310,6 @@ public class Granite.Demo : Granite.Application {
           }
         }
         
-        for (int y = 0; y < width; y++) {
-          for (int x = 0; x < height; x++) {
-            uint pixel_index = y * width * 3 + x * 3;
-
-            drawbuf[pixel_index] = (uint8) 255;
-            drawbuf[pixel_index + 1] = (uint8) 255;
-            drawbuf[pixel_index + 2] = (uint8) 255;
-          }
-      }
-        
-        for (int y = 0; y < width; y++) {
-            int x=0;
-            uint pixel_index = y * width * 3 + x * 3;
-            
-            drawbuf[pixel_index] = 0;
-            drawbuf[pixel_index + 1] = 0;
-            drawbuf[pixel_index + 2] = 0;
-        }
-        for (int x = 0; x < height; x++) {
-            int y=0;
-            uint pixel_index = y * width * 3 + x * 3;
-            
-            drawbuf[pixel_index] = 0;
-            drawbuf[pixel_index + 1] = 0;
-            drawbuf[pixel_index + 2] = 0;
-        }
-
         var pixbuf = new Gdk.Pixbuf.from_data (drawbuf, Gdk.Colorspace.RGB, false, 8, width, height, width * 3);
         var pixbuf_item = new Granite.Widgets.SidebarRowModel.with_icon_pixbuf ("Item 12", pixbuf);
 
