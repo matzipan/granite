@@ -53,6 +53,8 @@ set (VALA_SOURCES
     Widgets/Sidebar/Sidebar.vala
     Widgets/Sidebar/SidebarStore.vala
     Widgets/Sidebar/IndicatorBar.vala
+    Widgets/Sidebar/CustomPixbuf.vala
+    Widgets/Sidebar/PixbuffableIcon.vala
     Widgets/SidebarPaned.vala
     Widgets/StorageBar.vala
     Widgets/SourceList.vala

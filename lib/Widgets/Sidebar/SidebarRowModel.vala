@@ -127,6 +127,11 @@ namespace Granite.Widgets {
         public signal void action_icon_name_changed (string label);
 
         private Gdk.Pixbuf _icon_pixbuf = null;
+        
+        /* 
+         * The developer is responsible with providing a bigger pixbuf for 
+         * hidpi/high scale factor displays.
+         */
         public Gdk.Pixbuf icon_pixbuf {
             get {
                 return _icon_pixbuf;
@@ -141,6 +146,11 @@ namespace Granite.Widgets {
         public signal void icon_pixbuf_changed (Gdk.Pixbuf icon_pixbuf);
 
         private Gdk.Pixbuf _action_icon_pixbuf = null;
+        
+        /* 
+         * The developer is responsible with providing a bigger pixbuf for 
+         * hidpi/high scale factor displays.
+         */
         public Gdk.Pixbuf action_icon_pixbuf {
             get {
                 return _action_icon_pixbuf;

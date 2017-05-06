@@ -26,8 +26,8 @@ namespace Granite.Widgets {
         public SidebarRowModel model { get; construct; }
 
         private Gtk.Button action_button;
-        private Gtk.Image action_image;
-        private Gtk.Image icon;
+        private PixbuffableIcon action_image;
+        private PixbuffableIcon icon;
         private Gtk.Revealer icon_revealer;
         private Gtk.Label badge_label;
         private Gtk.Label row_label;
@@ -51,9 +51,8 @@ namespace Granite.Widgets {
         }
 
         protected Gtk.Grid build_grid () {
-            icon = new Gtk.Image ();
+            icon = new PixbuffableIcon ();
             icon.get_style_context ().add_class ("icon");
-            icon.icon_size = Gtk.IconSize.BUTTON;
 
             icon_revealer = new Gtk.Revealer ();
             icon_revealer.transition_type = Gtk.RevealerTransitionType.CROSSFADE;
@@ -73,8 +72,7 @@ namespace Granite.Widgets {
             badge_revealer.transition_type = Gtk.RevealerTransitionType.CROSSFADE;
             badge_revealer.add (badge_label);
 
-            action_image = new Gtk.Image ();
-            action_image.icon_size = Gtk.IconSize.BUTTON;
+            action_image = new PixbuffableIcon ();
 
             action_button = new Gtk.Button ();
             action_button.get_style_context ().add_class (Gtk.STYLE_CLASS_FLAT);
@@ -232,7 +230,8 @@ namespace Granite.Widgets {
             if (icon_pixbuf == null) {
                 can_hide_icon ();
             } else {
-                icon.pixbuf = icon_pixbuf.scale_simple(PIXBUF_ICON_WIDTH, PIXBUF_ICON_HEIGHT, Gdk.InterpType.BILINEAR);
+                icon.pixbuf = icon_pixbuf;
+                
                 icon_revealer.no_show_all = false;
                 icon_revealer.show_all ();
                 icon_revealer.reveal_child = true;
