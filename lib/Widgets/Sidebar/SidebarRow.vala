@@ -94,7 +94,8 @@ namespace Granite.Widgets {
             indicator_bar.margin_bottom = 2;
 
             var layout = new Gtk.Grid ();
-            layout.margin_start = (int) model.level * 6;
+            layout.margin_start = (int) model.level * 6 + 8;
+            layout.margin_end = 6;
             layout.attach (icon_revealer, 0, 0, 1, 2);
             layout.attach (row_label, 1, 0, 1, 1);
             layout.attach (indicator_bar, 1, 1, 1, 1);
