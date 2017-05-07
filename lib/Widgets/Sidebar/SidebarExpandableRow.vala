@@ -41,6 +41,7 @@ namespace Granite.Widgets {
         private void build_ui () {
             disclosure_button = new Gtk.Button.from_icon_name ("pan-down-symbolic", Gtk.IconSize.BUTTON);
             disclosure_button.get_style_context ().remove_class (Gtk.STYLE_CLASS_BUTTON);
+            disclosure_button.get_style_context ().add_class ("disclosure-button");
 
             disclosure_button_revealer = new Gtk.Revealer ();
             disclosure_button_revealer.transition_type = Gtk.RevealerTransitionType.CROSSFADE;
