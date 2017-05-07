@@ -25,6 +25,8 @@ namespace Granite.Widgets {
 
         public SidebarRowModel model { get; construct; }
 
+        protected Gtk.EventBox row_box;
+
         private Gtk.Button action_button;
         private PixbuffableIcon action_image;
         private PixbuffableIcon icon;
@@ -45,9 +47,9 @@ namespace Granite.Widgets {
             connect_signals ();
             load_data ();
         }
-
+        
         private void build_ui () {
-            add (build_grid ());
+            add_to_row_box (build_grid ());
         }
 
         protected Gtk.Grid build_grid () {
@@ -104,7 +106,14 @@ namespace Granite.Widgets {
 
             return layout;
         }
+        
+        protected void add_to_row_box (Gtk.Widget widget) {
+            row_box = new Gtk.EventBox ();
+            row_box.add (widget);
 
+            add (row_box);
+        }
+        
         protected void connect_signals () {
             action_button.clicked.connect (() => {
                 model.action_clicked ();
@@ -136,6 +145,33 @@ namespace Granite.Widgets {
                     no_show_all = true;
                 }
             });
+            
+            row_box.set_events (Gdk.EventMask.BUTTON_PRESS_MASK);
+            row_box.button_press_event.connect ((event) => {
+                if (event.type == Gdk.EventType.BUTTON_PRESS) {
+                    var button_event = (Gdk.EventButton) event;
+                    if (button_event.button == Gdk.BUTTON_SECONDARY) {
+                        var menu = model.popup_menu (model);
+                        
+                        if (menu != null && menu is Gtk.Menu) {
+                            menu.attach_to_widget (this, null);
+                            menu.popup (null, null, menu_position_func, button_event.button, button_event.time);
+                            
+                            menu.hide.connect (() => {
+                                    menu.detach ();
+                                });
+                        }
+
+                        return Gdk.EVENT_STOP;
+                    }
+                }
+                
+                return Gdk.EVENT_PROPAGATE;
+            });
+        }
+        
+        private void menu_position_func (Gtk.Menu menu, ref int x, ref int y, out bool push_in) {
+            push_in = true;
         }
 
         protected void load_data () {

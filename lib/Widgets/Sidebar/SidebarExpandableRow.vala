@@ -50,7 +50,7 @@ namespace Granite.Widgets {
             row_layout.insert_column (0);
             row_layout.attach (disclosure_button_revealer, 0, 0, 1, 2);
 
-            add (row_layout);
+            add_to_row_box (row_layout);
         }
 
         protected void connect_signals () {

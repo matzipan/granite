@@ -31,6 +31,8 @@ namespace Granite.Widgets {
         public signal void show ();
 
         public signal void action_clicked ();
+        
+        public signal Gtk.Menu popup_menu (SidebarRowModel model);
 
         private uint _level;
         public uint level {

@@ -29,7 +29,8 @@ namespace Granite.Widgets {
         private Gtk.Revealer disclosure_image_revealer;
         private Gtk.Image disclosure_image;
         private Gtk.Grid row_layout;
-        private Gtk.Button row_box;
+        
+        private bool primary_press = false;
 
         public SidebarHeader (SidebarHeaderModel model) {
             Object (model: (SidebarRowModel) model);
@@ -38,7 +39,6 @@ namespace Granite.Widgets {
             connect_signals ();
             load_data ();
         }
-
 
         private void build_ui () {
             selectable = false;
@@ -52,33 +52,57 @@ namespace Granite.Widgets {
             row_layout = build_grid ();
             row_layout.attach (disclosure_image_revealer, 4, 0, 1, 2);
             set_bold ();
-
-            row_box = new Gtk.Button ();
-            row_box.get_style_context ().remove_class (Gtk.STYLE_CLASS_BUTTON);
-
-            row_box.add (row_layout);
-
-            add (row_box);
+            
+            add_to_row_box (row_layout);
         }
 
         protected void connect_signals () {
             base.connect_signals ();
             
             header_model.children.items_changed.connect (handle_children_items_changed);
-
+            
             header_model.expanded_changed.connect (update_disclosure_image);
-            row_box.clicked.connect (toggle_reveal_children);
+            
+            row_box.set_events (Gdk.EventMask.BUTTON_PRESS_MASK | Gdk.EventMask.BUTTON_RELEASE_MASK);
+            row_box.button_press_event.connect ((event) => {
+                if (event.type == Gdk.EventType.BUTTON_PRESS) {
+                    var button_event = (Gdk.EventButton) event;
+                    if (button_event.button == Gdk.BUTTON_PRIMARY) {
+                        primary_press = true;
+                        return Gdk.EVENT_STOP;
+                    } else {
+                        primary_press = false;
+                    }
+                }
+                
+                return Gdk.EVENT_PROPAGATE;
+            });
+            
+            button_release_event.connect ((event) => {
+                if (event.type == Gdk.EventType.BUTTON_RELEASE) {
+                    if (primary_press) {
+                        toggle_reveal_children ();
+                    }
+
+                    primary_press = false;
+                    return Gdk.EVENT_STOP;
+                }
+                
+                return Gdk.EVENT_PROPAGATE;
+            });
 
             row_box.enter_notify_event.connect (() => {
                 disclosure_image_revealer.reveal_child = true;
-                return false;
+                return Gdk.EVENT_PROPAGATE;
             });
-
+            
             row_box.leave_notify_event.connect (() => {
                 disclosure_image_revealer.reveal_child = false;
-                return false;
-            });
+                primary_press = false;
 
+                return Gdk.EVENT_PROPAGATE;
+            });
+            
             header_model.show.connect (() => { show (); });
             header_model.hide.connect (() => { hide (); });
         }
