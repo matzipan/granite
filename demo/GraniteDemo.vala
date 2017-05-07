@@ -306,8 +306,8 @@ public class Granite.Demo : Granite.Application {
         test1.children.append (new Granite.Widgets.SidebarRowModel.with_icon_name ("Item 14", "folder-music"));
         test1.children.append (new Granite.Widgets.SidebarRowModel.with_icon_name ("Item 15", "user-trash"));
 
-        const int width = 16;
-        const int height = 16;
+        int width = 16 * layout.scale_factor;
+        int height = 16 * layout.scale_factor;
         var drawbuf = new uint8[width*height*3];
 
         for (int y = 0; y < width; y++) {
