@@ -20,9 +20,6 @@
 
 namespace Granite.Widgets {
     public class SidebarRow : Gtk.ListBoxRow {
-        private const int PIXBUF_ICON_WIDTH = 16;
-        private const int PIXBUF_ICON_HEIGHT = 16;
-
         public SidebarRowModel model { get; construct; }
 
         protected Gtk.EventBox row_box;
@@ -294,7 +291,7 @@ namespace Granite.Widgets {
                 return;
             }
             
-            action_image.pixbuf = action_icon_pixbuf.scale_simple(PIXBUF_ICON_WIDTH, PIXBUF_ICON_HEIGHT, Gdk.InterpType.BILINEAR);
+            action_image.pixbuf = action_icon_pixbuf;
         }
 
         private void handle_action_visible_changed (bool action_visible) {
